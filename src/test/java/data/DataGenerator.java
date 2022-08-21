@@ -21,13 +21,13 @@ public class DataGenerator {
             .build();
     private static final Faker faker = new Faker(new Locale("en"));
 
-    private DataGenerator(RegistrationDto registrationDto) {
+    private DataGenerator() {
     }
 
     private static void sendRequest(RegistrationDto user) {
         given()
                 .spec(requestSpec)
-                .body(new RegistrationDto("vasya", "password", "active"))
+                .body(user)
                 .when()
                 .post("/api/system/users")
                 .then()

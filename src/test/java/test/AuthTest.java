@@ -10,7 +10,6 @@ import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static data.DataGenerator.Registration.getRegisteredUser;
-import static data.DataGenerator.Registration.getUser;
 import static data.DataGenerator.getRandomLogin;
 import static data.DataGenerator.getRandomPassword;
 
@@ -19,6 +18,8 @@ class AuthTest{
     @BeforeEach
     void setup() {
         open("http://localhost:9999");
+        $("[data-test-id='login'] .input__control").setValue(getRandomLogin());
+        $("[data-test-id='password'] .input__control").setValue(getRandomPassword());
     }
 
     @Test
