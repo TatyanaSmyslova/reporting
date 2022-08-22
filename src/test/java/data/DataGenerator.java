@@ -6,6 +6,7 @@ import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import lombok.Value;
+import lombok.val;
 
 import java.util.Locale;
 
@@ -25,21 +26,23 @@ public class DataGenerator {
     }
 
     private static void sendRequest(RegistrationDto user) {
-        given()
-                .spec(requestSpec)
-                .body(user)
-                .when()
-                .post("/api/system/users")
-                .then()
-                .statusCode(200);
+        given() // "дано"
+                .spec(requestSpec) // указываем, какую спецификацию используем
+                .body(user) // передаём в теле объект, который будет преобразован в JSON
+                .when() // "когда"
+                .post("/api/system/users") // на какой путь, относительно BaseUri отправляем запрос
+                .then() // "тогда ожидаем"
+                .statusCode(200); // код 200 OK
     }
 
     public static String getRandomLogin() {
-        return faker.name().username();
+        String login = faker.name().username();
+        return login;
     }
 
     public static String getRandomPassword() {
-        return faker.internet().password();
+        String password = faker.internet().password();
+        return password;
     }
 
     public static class Registration {
@@ -47,15 +50,17 @@ public class DataGenerator {
         }
 
         public static RegistrationDto getUser(String status) {
-            return new RegistrationDto(getRandomLogin(), getRandomPassword(), status);
+            RegistrationDto user = new RegistrationDto(getRandomLogin(), getRandomPassword(), status);
+            return user;
         }
 
         public static RegistrationDto getRegisteredUser(String status) {
-            RegistrationDto getRegisteredUser = getUser(status);
-            sendRequest(getRegisteredUser);
-            return getRegisteredUser;
+            var registeredUser = getUser(status);
+            sendRequest(registeredUser);
+            return registeredUser;
         }
     }
+
 
     @Value
     public static class RegistrationDto {
